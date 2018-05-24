@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<meta charset="utf-8">
+
+<head>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 25px;
+      font-family: sans-serif;
+    }
+
+    body {
+      margin: 0;
+    }
+
+    .content {
+      max-width: 500px;
+      margin: auto;
+      background: rgb(236, 236, 210);
+    }
+
+    /* Create two equal columns that floats next to each other */
+
+    .column {
+      float: left;
+      padding: 10px;
+    }
+
+    .left {
+      max-width: 50%;
+    }
+
+    .right {
+      min-width: 50%;
+    }
+
+    /* Clear floats after the columns */
+
+    .result {
+      max-width: 500px;
+      margin: auto;
+      background: rgb(255, 255, 255);
+      text-align: center;
+      line-height: 10px;
+      font: 20px sans-serif;
+      font-weight: 900;
+    }
+
+    select {
+      -webkit-appearance: button;
+      -webkit-border-radius: 2px;
+      -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+      -webkit-padding-end: 20px;
+      -webkit-padding-start: 2px;
+      -webkit-user-select: none;
+      background-image: url(http://i62.tinypic.com/15xvbd5.png), -webkit-linear-gradient(#FAFAFA, #F4F4F4 40%, #E5E5E5);
+      background-position: 97% center;
+      background-repeat: no-repeat;
+      border: 1px solid #AAA;
+      color: #555;
+      font-size: inherit;
+      margin: 10px;
+      overflow: hidden;
+      padding: 5px 10px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 200px;
+    }
+
+    .chart {
+      background: #b0e0f8;
+      margin: 5px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="row">
+
+    <select id="sex_M" onchange="calculateFunction()" class="inputSelect">
+      <option value=1>Male </option>
+      <option value=0>Female </option>
+    </select>
+  </div>
+
+  <div class="result">
+    <p>
+      <label for="result" style="display: inline-block; width: 200px; text-align: center;">
+        <div class="result_message"></div>
+      </label>
+    </p>
+  </div>
+  </div>
+
+  <script>
+    function calculateFunction() {
+      $.ajax({
+        url: "{{ url_for('calculate')}}",
+        dataType: 'json',
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify(extractData()),
+        type: 'POST',
+        success: function (response) {
+          showResult(response['result']);
+          console.log(response);
+        },
+        error: function (error) {
+          console.log(error);
+        }
+      })
+    }
+  </script>
+
+  <script>
+    function extractData() {
+      output_dict = {};
+      //get all form inputs and save in a dictionary
+      var numbers = $(".inputSelect");
+      console.log(numbers)
+      numbers.each(function () {
+        output_dict[$(this).attr('id')] = $(this).find(":selected").val();
+      })
+
+      var bars = $(".inputBar");
+      console.log(bars)
+      bars.each(function () {
+        output_dict[$(this).attr('id')] = $(this).val();
+      })
+
+      console.log(output_dict)
+      return output_dict;
+    };
+
+    function showResult(result) {
+      var resultMessageDiv = d3.selectAll(".result_message")
+        .text(result);
+      console.log(result);
+    };
+  </script>
+
+</body>

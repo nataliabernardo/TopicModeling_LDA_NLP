@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <meta charset="utf-8">
+  <style>
+    body {
+      font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+      font-weight: 300;
+      font-size: 12px;
+    }
+
+    nav {
+      display: block;
+      width: 805px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      margin-left: 40px;
+      margin-top: 20px;
+      font-size: 28px;
+      color: black;
+      font-weight: 300;
+    }
+
+    h2 {
+      margin-left: 40px;
+      font-size: 16px;
+      color: grey;
+      font-weight: 300;
+      margin-bottom: 30px;
+    }
+
+    h3 {
+      margin-top: 20px;
+      font-size: 24px;
+      color: black;
+      font-weight: 200;
+    }
+    h1,
+    h2 {
+      text-align: center;
+    }
+
+    nav {
+      margin-bottom: 10px;
+
+    }
+
+    .content {
+      max-width: 500px;
+      margin: auto;
+      background: rgb(236, 236, 210);
+    }
+
+
+    .result {
+      max-width: 500px;
+      margin: auto;
+      background: rgb(255, 255, 255);
+      text-align: center;
+      line-height: 10px;
+      font: 20px sans-serif;
+      font-weight: 900;
+    }
+
+    select {
+      -webkit-appearance: button;
+      -webkit-border-radius: 2px;
+      -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+      -webkit-padding-end: 20px;
+      -webkit-padding-start: 2px;
+      -webkit-user-select: none;
+      background-image: url(http://i62.tinypic.com/15xvbd5.png), -webkit-linear-gradient(#FAFAFA, #F4F4F4 40%, #E5E5E5);
+      background-position: 97% center;
+      background-repeat: no-repeat;
+      border: 1px solid #AAA;
+      color: #555;
+      font-size: inherit;
+      margin: 10px;
+      overflow: hidden;
+      padding: 5px 10px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 200px;
+    }
+
+    .category-title {
+      font-size: 16pt;
+      height: 50px;
+      vertical-align: sub;
+      margin-left: 20px;
+      width: 130px;
+      display: inline-block;
+    }
+
+    .category-list-item {
+      height: 50px;
+    }
+
+    .stars {
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    .stars .star polygon {
+      fill: #d8d8d8;
+    }
+
+    .stars[data-stars] .star polygon {
+      fill: #ffd055;
+    }
+
+    .stars[data-stars="1"] .star:nth-child(1)~.star polygon {
+      fill: #d8d8d8;
+    }
+
+    .stars[data-stars="2"] .star:nth-child(2)~.star polygon {
+      fill: #d8d8d8;
+    }
+
+    .stars[data-stars="3"] .star:nth-child(3)~.star polygon {
+      fill: #d8d8d8;
+    }
+
+    .stars[data-stars="4"] .star:nth-child(4)~.star polygon {
+      fill: #d8d8d8;
+    }
+
+    .stars[data-stars="5"] .star:nth-child(5)~.star polygon {
+      fill: #d8d8d8;
+    }
+
+    .stars[data-stars="6"] .star:nth-child(6)~.star polygon {
+      fill: #d8d8d8;
+    }
+
+    .stars[data-stars="7"] .star:nth-child(7)~.star polygon {
+      fill: #d8d8d8;
+    }
+
+    .stars[data-stars="8"] .star:nth-child(8)~.star polygon {
+      fill: #d8d8d8;
+    }
+
+    .stars[data-stars="9"] .star:nth-child(9)~.star polygon {
+      fill: #d8d8d8;
+    }
+
+    .stars[data-stars="10"] .star:nth-child(10)~.star polygon {
+      fill: #d8d8d8;
+    }
+
+    .tableauPlaceholder {
+      padding: 20pts;
+    }
+
+    .coolsculpting_result {
+      visibility: hidden;
+    }
+
+    .botox_result {
+      visibility: hidden;
+    }
+
+    .rhyno_result {
+      visibility: hidden;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>
+    <b>Aesthetic Procedure's Rating generation based on user sentiment</b>
+  </h1>
+  <h2>
+    <br> Select a candidate or tweet feature to get started.
+    <p>Natalia Bernardo - March 2018</p>
+  </h2>
+
+  <nav class="procedures">
+    <h3>Procedures:</h3>
+  </nav>
+  <nav id="categories" class="categories">
+    <h3>Categories:</h3>
+  </nav>
+  <nav id='result' class="result_message">
+    <div id='rhyno_result' class='rhyno_result'>
+      <div class='tableauPlaceholder' id='tableau_rhyno' style='position: relative'>
+        <noscript>
+          <a href='#'>
+            <img alt='Story 1 ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Re&#47;Reviews_Sentiment_Analysis_rhyno&#47;Story1&#47;1_rss.png'
+              style='border: none' />
+          </a>
+        </noscript>
+        <object class='tableauViz' style='display:none;'>
+          <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
+          <param name='embed_code_version' value='3' />
+          <param name='site_root' value='' />
+          <param name='name' value='Reviews_Sentiment_Analysis_rhyno&#47;Story1' />
+          <param name='tabs' value='no' />
+          <param name='toolbar' value='yes' />
+          <param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Re&#47;Reviews_Sentiment_Analysis_rhyno&#47;Story1&#47;1.png'
+          />
+          <param name='animate_transition' value='yes' />
+          <param name='display_static_image' value='yes' />
+          <param name='display_spinner' value='yes' />
+          <param name='display_overlay' value='yes' />
+          <param name='display_count' value='yes' />
+          <param name='filter' value='publish=yes' />
+        </object>
+      </div>
+    </div>
+    <div id='botox_result' class='botox_result'>
+      <div class='tableauPlaceholder' id='tableau_botox' style='position: relative'>
+        <noscript>
+          <a href='#'>
+            <img alt='Story 1 ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Re&#47;Reviews_Sentiment_Analysis_botox&#47;Story1&#47;1_rss.png'
+              style='border: none' />
+          </a>
+        </noscript>
+        <object class='tableauViz' style='display:none;'>
+          <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
+          <param name='embed_code_version' value='3' />
+          <param name='site_root' value='' />
+          <param name='name' value='Reviews_Sentiment_Analysis_botox&#47;Story1' />
+          <param name='tabs' value='no' />
+          <param name='toolbar' value='yes' />
+          <param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Re&#47;Reviews_Sentiment_Analysis_botox&#47;Story1&#47;1.png'
+          />
+          <param name='animate_transition' value='yes' />
+          <param name='display_static_image' value='yes' />
+          <param name='display_spinner' value='yes' />
+          <param name='display_overlay' value='yes' />
+          <param name='display_count' value='yes' />
+          <param name='filter' value='publish=yes' />
+        </object>
+      </div>
+    </div>
+    <div id='coolsculpting_result' class='coolsculpting_result'>
+      <div class='tableauPlaceholder' id='tableau_coolsculpting' style='position: relative'>
+        <noscript>
+          <a href='#'>
+            <img alt='Story 1 ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Re&#47;Reviews_Sentiment_Analysis_coolsculpting&#47;Story1&#47;1_rss.png'
+              style='border: none' />
+          </a>
+        </noscript>
+        <object class='tableauViz' style='display:none;'>
+          <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
+          <param name='embed_code_version' value='3' />
+          <param name='site_root' value='' />
+          <param name='name' value='Reviews_Sentiment_Analysis_coolsculpting&#47;Story1' />
+          <param name='tabs' value='no' />
+          <param name='toolbar' value='yes' />
+          <param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Re&#47;Reviews_Sentiment_Analysis_coolsculpting&#47;Story1&#47;1.png'
+          />
+          <param name='animate_transition' value='yes' />
+          <param name='display_static_image' value='yes' />
+          <param name='display_spinner' value='yes' />
+          <param name='display_overlay' value='yes' />
+          <param name='display_count' value='yes' />
+          <param name='filter' value='publish=yes' />
+        </object>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Tableau loading scripts-->
+  <script type='text/javascript'>
+    var divElement = document.getElementById('tableau_coolsculpting');
+    var vizElement = divElement.getElementsByTagName('object')[0];
+    vizElement.style.width = '1016px';
+    vizElement.style.height = '491px';
+    var scriptElement = document.createElement('script');
+    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+    vizElement.parentNode.insertBefore(scriptElement, vizElement);
+  </script>
+  <script type='text/javascript'>
+    var divElement = document.getElementById('tableau_botox');
+    var vizElement = divElement.getElementsByTagName('object')[0];
+    vizElement.style.width = '1016px';
+    vizElement.style.height = '491px';
+    var scriptElement = document.createElement('script');
+    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+    vizElement.parentNode.insertBefore(scriptElement, vizElement);
+  </script>
+  <script type='text/javascript'>
+    var divElement = document.getElementById('tableau_rhyno');
+    var vizElement = divElement.getElementsByTagName('object')[0];
+    vizElement.style.width = '1016px';
+    vizElement.style.height = '491px';
+    var scriptElement = document.createElement('script');
+    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+    vizElement.parentNode.insertBefore(scriptElement, vizElement);
+  </script>
+
+  <script>
+    var procedures = [{
+      csv: 'results_botox.csv',
+      value: '1',
+      label: 'Botox',
+      divName: 'botox_result'
+    }, {
+      csv: 'results_rhinoplasty.csv',
+      label: 'Rhinoplasty',
+      value: '2',
+      divName: 'rhyno_result'
+    }, {
+      csv: 'results_coolsculpting.csv',
+      label: 'Coolsculpting',
+      value: '3',
+      divName: 'coolsculpting_result'
+    }];
+
+    var select = $('<select>');
+    select.attr('id', 'proceduresSelect')
+    select.attr('onchange', 'calculateFunction(this)');
+    procedures.forEach(function (item) {
+      select.append($('<option>', {
+        value: item.csv,
+        text: item.label
+      }));
+    });
+    $('.procedures').append(select);
+
+    function addStarRating(div, title, rating, starCount) {
+      div = div.append("div")
+        .attr("class", "category-list-item");
+
+      div.append("span")
+        .attr("class", "category-title")
+        .text(title);
+
+      div = div.append("span")
+        .attr("class", "stars")
+        .attr("data-stars", rating);
+      for (i = 1; i <= starCount; i++) {
+        addOneStar(div, i);
+      }
+    }
+
+    function addOneStar(svg, order) {
+      svg.append("svg")
+        .attr("viewBox", "0 0 20 22")
+        .attr("width", 40)
+        .attr("height", 40)
+        .attr("class", "star rating")
+        .attr("data-rating", order)
+        .attr("preserveAspectRatio", "xMidYMid meet")
+        .append("polygon")
+        .attr("points", "9.9, 1.1, 3.3, 21.78, 19.8, 8.58, 0, 8.58, 16.5, 21.78")
+        .attr("style", "fill-rule:nonzero;");
+    }
+
+    function printCategoriesInStars(csv) {
+      var starCount = 4;
+      div = d3.select('nav#categories');
+      div = div.append("div")
+        .attr("class", "category-list");
+
+      d3.csv(csv, function (data) {
+        console.log(csv);
+        data.forEach(function (d) {
+          d.title = d.title;
+          d.rating = +d.rating;
+          d.rating = parseInt(d.rating * starCount);
+        })
+
+        data.forEach(function (item) {
+          addStarRating(div, item.title, item.rating, starCount);
+        });
+
+        console.log(data);
+      });
+    }
+
+    function calculateFunction() {
+      csv = '/static/data/' + $('#proceduresSelect').val();
+      div = d3.select('nav#categories');
+      div.select('div').remove();
+      printCategoriesInStars(csv);
+
+      var divName;
+      procedures.forEach(function (item) {
+        if (item.csv == $('#proceduresSelect').val()) {
+          divName = item.divName;
+        }
+      });
+      changeTableauVisibility(divName);
+
+    }
+
+    function changeTableauVisibility(id) {
+      document.getElementById('botox_result').style.visibility = "hidden";
+      document.getElementById('coolsculpting_result').style.visibility = "hidden"
+      document.getElementById('rhyno_result').style.visibility = "hidden"
+
+      var elem = document.getElementById(id);
+      elem.style.visibility = "visible";
+      elem.parentNode.prepend(elem);
+
+
+    }
+
+    printCategoriesInStars('/static/data/' + $('#proceduresSelect').val());
+  </script>
+
+</body>
+
+</html>
